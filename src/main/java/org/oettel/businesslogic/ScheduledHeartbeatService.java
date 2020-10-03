@@ -87,6 +87,11 @@ public class ScheduledHeartbeatService implements Runnable {
                 MessageSender messageSender = new MessageSender(inetAddress);
                 messageSender.sendMessage(messageJson);
                 messageSender.close();
+
+                BroadcastSender broadcastSender = new BroadcastSender();
+                broadcastSender.sendEcho(messageJson);
+                broadcastSender.close();
+
             } catch (ConnectException e){
                 //e.printStackTrace();
             }catch (IOException e) {

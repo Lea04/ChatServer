@@ -58,5 +58,13 @@ public class BroadcastServerService {
 
     }
 
+    public void respondToHeartbeat(InetAddress inetAddress) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Message heartbeatResponseMessage = new ServerMessage(ServerMessageType.HEARTBEAT_RESPONSE, "heartbeat_response");
+        String receivedJson = mapper.writeValueAsString(heartbeatResponseMessage);
+        MessageSender messageSender = new MessageSender(inetAddress);
+        messageSender.sendMessage(receivedJson);
+    }
+
 
 }

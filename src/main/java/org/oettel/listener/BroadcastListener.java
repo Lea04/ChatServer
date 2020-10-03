@@ -82,6 +82,9 @@ public class BroadcastListener implements Runnable {
             case BROADCAST:
                 broadcastServerService.respondToBroadcastMessage(packet.getAddress());
                 break;
+            case HEARTBEAT:
+                broadcastServerService.respondToHeartbeat(packet.getAddress());
+                break;
             case ELECTION_MESSAGE:
                 //TODO:
                 break;
