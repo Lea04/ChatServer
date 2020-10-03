@@ -90,6 +90,12 @@ public class UnicastServerService {
         ObjectMapper objectMapper = new ObjectMapper();
         message.setMessageType(MessageType.CLIENT_MESSAGE);
         multicastSenderClient.sendMulticast(objectMapper.writeValueAsString(messageForwarder), Constants.CLIENT_MULTICAST_PORT);
+
+        VectorClockSingleton.getInstance().getVectorClockEntryList().forEach(vectorClockEntry -> {
+            System.out.print("Address: " + vectorClockEntry.getIpAdress().toString() + " ");
+            System.out.println("Clockcount: " + vectorClockEntry.getClockCount());
+        });
+
     }
 
 }
