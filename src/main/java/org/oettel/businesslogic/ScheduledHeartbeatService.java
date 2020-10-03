@@ -67,9 +67,6 @@ public class ScheduledHeartbeatService implements Runnable {
             pool.schedule(leaderElectionService,2, TimeUnit.SECONDS);
 
 
-            if((!ServerConfigurationSingleton.getInstance().getIsLeader()) && ServerConfigurationSingleton.getInstance().getLeader().equals(ServerConfigurationSingleton.getInstance().getServerAddress())){
-                ServerConfigurationSingleton.getInstance().setIsLeader(true);
-            }else{ServerConfigurationSingleton.getInstance().setIsLeader(false);}
 
 
         }
@@ -96,6 +93,30 @@ public class ScheduledHeartbeatService implements Runnable {
                 e.printStackTrace();
             }
         });
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        ServerConfigurationSingleton.getInstance().getReplicaServer().forEach(inetAddress -> {
+            Heartbeat heartbeat = new Heartbeat(inetAddress, false);
+            HeartbeatListSingleton.getInstance().addReplicaToHeartbeatList(heartbeat);
+            try {
+                Message heartbeatMessage = new ServerMessage(ServerMessageType.HEARTBEAT, "heartbeat");
+                String messageJson = mapper.writeValueAsString(heartbeatMessage);
+                MessageSender messageSender = new MessageSender(inetAddress);
+                messageSender.sendMessage(messageJson);
+                messageSender.close();
+            } catch (ConnectException e){
+                //e.printStackTrace();
+            }catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
 
        /* try {
             Message heartbeatMessage = new ServerMessage(ServerMessageType.HEARTBEAT, "heartbeat");
