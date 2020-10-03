@@ -67,6 +67,11 @@ public class ScheduledHeartbeatService implements Runnable {
             pool.schedule(leaderElectionService,2, TimeUnit.SECONDS);
 
 
+            if((!ServerConfigurationSingleton.getInstance().getIsLeader()) && ServerConfigurationSingleton.getInstance().getLeader().equals(ServerConfigurationSingleton.getInstance().getServerAddress())){
+                ServerConfigurationSingleton.getInstance().setIsLeader(true);
+            }else{ServerConfigurationSingleton.getInstance().setIsLeader(false);}
+
+
         }
 
 
