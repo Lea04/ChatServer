@@ -94,28 +94,6 @@ public class ScheduledHeartbeatService implements Runnable {
             }
         });
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        ServerConfigurationSingleton.getInstance().getReplicaServer().forEach(inetAddress -> {
-            Heartbeat heartbeat = new Heartbeat(inetAddress, false);
-            HeartbeatListSingleton.getInstance().addReplicaToHeartbeatList(heartbeat);
-            try {
-                Message heartbeatMessage = new ServerMessage(ServerMessageType.HEARTBEAT, "heartbeat");
-                String messageJson = mapper.writeValueAsString(heartbeatMessage);
-                MessageSender messageSender = new MessageSender(inetAddress);
-                messageSender.sendMessage(messageJson);
-                messageSender.close();
-            } catch (ConnectException e){
-                //e.printStackTrace();
-            }catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-
 
 
        /* try {
