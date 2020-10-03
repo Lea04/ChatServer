@@ -50,6 +50,7 @@ public class ScheduledHeartbeatService implements Runnable {
 
         }
 
+
         //__
 
         if(!ServerConfigurationSingleton.getInstance().getReplicaServer().contains(ServerConfigurationSingleton.getInstance().getServerAddress()
