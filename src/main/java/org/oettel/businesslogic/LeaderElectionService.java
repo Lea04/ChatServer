@@ -31,7 +31,6 @@ public class LeaderElectionService implements Runnable {
 
     private void formRing()  {
         Collections.sort(ServerConfigurationSingleton.getInstance().getReplicaServer(),new InetAddressComparator());
-        int ii= 0;
     }
 
     private InetAddress get_neighbour()  {
