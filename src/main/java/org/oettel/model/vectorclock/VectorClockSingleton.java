@@ -27,7 +27,10 @@ public class VectorClockSingleton {
     }
 
     public void setVectorClockEntryList(List<VectorClockEntry> vectorClockEntryList) {
-        this.vectorClockEntryList = vectorClockEntryList;
+
+        for(int i = 0; i < this.vectorClockEntryList.size(); i++){
+            this.vectorClockEntryList.set(i,vectorClockEntryList.get(i));
+        }
     }
 
     public void addVectorClockEntryToList(VectorClockEntry vectorClockEntry) {
