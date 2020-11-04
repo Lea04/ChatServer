@@ -106,16 +106,14 @@ public class UnicastServerService {
 
         MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
         message.setClientMessageType(ClientMessageType.REPLICATION);
-        multicastSender.sendMulticast(mapper.writeValueAsString(message),Constants.CLIENT_MULTICAST_PORT);
+        multicastSender.sendMulticast(mapper.writeValueAsString(message),Constants.MULTICAST_PORT);
         multicastSender.close();
 
         //Replication VectorClock
         MulticastSender multicastSender2 = new MulticastSender(Constants.MULTICAST_PORT);
         ServerMessage serverMessage = new ServerMessage(ServerMessageType.REPLICATION, "Replicate VectorClock", VectorClockSingleton.getInstance().getVectorClockEntryList());
-        multicastSender2.sendMulticast(mapper.writeValueAsString(serverMessage),Constants.CLIENT_MULTICAST_PORT);
+        multicastSender2.sendMulticast(mapper.writeValueAsString(serverMessage),Constants.MULTICAST_PORT);
         multicastSender2.close();
-
-
 
 
     }
