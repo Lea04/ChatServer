@@ -60,14 +60,14 @@ public class MulticastServerService {
 
 
     public void replicate(ClientMessage message) {
-        if(ServerConfigurationSingleton.getInstance().getIsLeader()){
+        if(!ServerConfigurationSingleton.getInstance().getIsLeader()){
             ServerConfigurationSingleton.getInstance().getHoldbackQueue().add(message);
         }
 
     }
 
     public void replicateVectorClock(ServerMessage message) {
-        if(ServerConfigurationSingleton.getInstance().getIsLeader()){
+        if(!ServerConfigurationSingleton.getInstance().getIsLeader()){
             VectorClockSingleton.getInstance().setVectorClockEntryList(message.getVectorClockEntryList());
         }
 
