@@ -62,7 +62,7 @@ public class ScheduledHeartbeatService implements Runnable {
             ServerConfigurationSingleton.getInstance().getReplicaServer().add(ServerConfigurationSingleton.getInstance().getServerAddress());
 
 
-                    ScheduledExecutorService pool = Executors.newSingleThreadScheduledExecutor();
+            ScheduledExecutorService pool = Executors.newSingleThreadScheduledExecutor();
             LeaderElectionService leaderElectionService = new LeaderElectionService();
             pool.schedule(leaderElectionService,2, TimeUnit.SECONDS);
 

@@ -13,6 +13,7 @@ import java.util.List;
 public class ClientMessage extends Message {
     private ClientMessageType clientMessageType;
     private List<VectorClockEntry> vectorClockEntries;
+    private int queueIdCounter;
 
     public ClientMessage() {
     }
@@ -32,9 +33,17 @@ public class ClientMessage extends Message {
         this.vectorClockEntries = vectorClockEntryList;
     }
 
+    public ClientMessage(ClientMessageType clientMessageType, String content, List<VectorClockEntry> vectorClockEntryList, int queueIdCounter) {
+        super(MessageType.CLIENT_MESSAGE, content);
+        this.clientMessageType = clientMessageType;
+        this.vectorClockEntries = vectorClockEntryList;
+        this.queueIdCounter = queueIdCounter;
+    }
+
     public ClientMessageType getClientMessageType() {
         return clientMessageType;
     }
+
 
     public void setClientMessageType(ClientMessageType clientMessageType) {
         this.clientMessageType = clientMessageType;
@@ -46,5 +55,13 @@ public class ClientMessage extends Message {
 
     public void setVectorClockEntries(List<VectorClockEntry> vectorClockEntries) {
         this.vectorClockEntries = vectorClockEntries;
+    }
+
+    public int getQueueIdCounter() {
+        return queueIdCounter;
+    }
+
+    public void setQueueIdCounter(int queueIdCounter) {
+        this.queueIdCounter = queueIdCounter;
     }
 }

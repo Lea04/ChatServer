@@ -6,6 +6,7 @@ import org.oettel.configuration.Constants;
 import org.oettel.configuration.HeartbeatListSingleton;
 import org.oettel.configuration.ServerConfigurationSingleton;
 import org.oettel.model.message.*;
+import org.oettel.model.vectorclock.VectorClockEntry;
 import org.oettel.model.vectorclock.VectorClockSingleton;
 import org.oettel.sender.MessageSender;
 import org.oettel.sender.MulticastSender;
@@ -17,6 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class UnicastServerService {
+    ObjectMapper mapper = new ObjectMapper();
+
     public void handleBroadcastResponseMessage(InetAddress inetAddress) throws IOException {
         System.out.println("Server receied BroadcastResponse from: "+inetAddress);
         if (!ServerConfigurationSingleton.getInstance().getReplicaServer().contains(inetAddress)) {
@@ -82,18 +85,57 @@ public class UnicastServerService {
         message.getVectorClockEntries().forEach(externalVectorClockEntry -> {
             VectorClockSingleton.getInstance().updateExternalValues(externalVectorClockEntry);
         });
-        ServerConfigurationSingleton.getInstance().addMessageToHoldbackQueue(message.getContent());
+        ServerConfigurationSingleton.getInstance().addMessageToHoldbackQueue(message);
         VectorClockSingleton.getInstance().updateVectorClock();
         VectorClockSingleton.getInstance().updateVectorClock();
         message.setVectorClockEntries(VectorClockSingleton.getInstance().getVectorClockEntryList());
-        Message messageForwarder = message;
+        //Message messageForwarder = message;
+
         ObjectMapper objectMapper = new ObjectMapper();
         message.setMessageType(MessageType.CLIENT_MESSAGE);
+        message.setQueueIdCounter(ServerConfigurationSingleton.getInstance().getQueueIdCounter());
+        Message messageForwarder = message;
         multicastSenderClient.sendMulticast(objectMapper.writeValueAsString(messageForwarder), Constants.CLIENT_MULTICAST_PORT);
 
         VectorClockSingleton.getInstance().getVectorClockEntryList().forEach(vectorClockEntry -> {
             System.out.print("Address: " + vectorClockEntry.getIpAdress().toString() + " ");
             System.out.println("Clockcount: " + vectorClockEntry.getClockCount());
+        });
+
+        //Replication Message
+
+        MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
+        message.setClientMessageType(ClientMessageType.REPLICATION);
+        multicastSender.sendMulticast(mapper.writeValueAsString(message),Constants.CLIENT_MULTICAST_PORT);
+        multicastSender.close();
+
+        //Replication VectorClock
+        ServerMessage serverMessage = new ServerMessage(ServerMessageType.REPLICATION, "Replicate VectorClock", VectorClockSingleton.getInstance().getVectorClockEntryList());
+        multicastSender.sendMulticast(mapper.writeValueAsString(serverMessage),Constants.CLIENT_MULTICAST_PORT);
+        multicastSender.close();
+
+
+
+
+    }
+
+    public void handleNack(ClientMessage message) throws IOException {
+        message.getQueueIdCounter();
+        ServerConfigurationSingleton.getInstance().getHoldbackQueue().forEach(holdBackQueueEntry -> {
+            if(holdBackQueueEntry.getQueueIdCounter() == message.getQueueIdCounter()){
+            try {
+                ClientMessage chatMessage = holdBackQueueEntry;
+                chatMessage.setClientMessageType(ClientMessageType.NACK);
+                String messageJson = mapper.writeValueAsString(chatMessage);
+                MessageSender messageSender = new MessageSender();
+                messageSender.sendMessage(messageJson);
+                messageSender.close();
+            }catch (Exception e) {
+                    e.printStackTrace();
+            }
+
+            }
+
         });
 
     }

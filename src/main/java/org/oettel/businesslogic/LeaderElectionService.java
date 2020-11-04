@@ -31,6 +31,7 @@ public class LeaderElectionService implements Runnable {
 
     private void formRing()  {
         Collections.sort(ServerConfigurationSingleton.getInstance().getReplicaServer(),new InetAddressComparator());
+        int ii= 0;
     }
 
     private InetAddress get_neighbour()  {
@@ -87,7 +88,6 @@ public class LeaderElectionService implements Runnable {
 
             }
 
-//            System.out.println("I am the Leader1: "+ServerConfigurationSingleton.getInstance().getIsLeader() +".   The Leader is: "+ServerConfigurationSingleton.getInstance().getLeader());
         }
 
         else if (mid.equals(this.pid)) {

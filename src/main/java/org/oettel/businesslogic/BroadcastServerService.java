@@ -35,7 +35,6 @@ public class BroadcastServerService {
         //Adds a server InetAddress to the ReclicaList and ensures that the ReplicaList contains the a InetAddress is contained at most once
         if(!ServerConfigurationSingleton.getInstance().getReplicaServer().contains(address)){
             ServerConfigurationSingleton.getInstance().addReplicaToReplicaList(address);
-            //TODO: State replication
         }
 
     }

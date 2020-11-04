@@ -99,6 +99,9 @@ public class MessageListener implements Runnable {
             case CHAT_MESSAGE:
                 unicastServerService.handleChatMessage(clientMessage);
                 break;
+            case NACK:
+                unicastServerService.handleNack(clientMessage);
+                break;
             default:
                 break;
         }

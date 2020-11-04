@@ -19,6 +19,8 @@ public class MulticastSender {
         this.multicastSocket.joinGroup(new InetSocketAddress(addressGroup, ServerConfigurationSingleton.getInstance().getServerPort()), NetworkInterface.getByInetAddress(addressGroup));
     }
 
+
+
     public void sendMulticast(String msg, int port) throws IOException {
         System.out.println("MulticastMessage: " + msg);
         buf = msg.getBytes();

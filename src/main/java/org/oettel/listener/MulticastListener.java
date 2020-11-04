@@ -3,9 +3,7 @@ package org.oettel.listener;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.oettel.businesslogic.MulticastServerService;
 import org.oettel.configuration.ServerConfigurationSingleton;
-import org.oettel.model.message.ElectionMessage;
-import org.oettel.model.message.Message;
-import org.oettel.model.message.ServerMessage;
+import org.oettel.model.message.*;
 
 import java.io.IOException;
 import java.net.*;
@@ -68,6 +66,7 @@ public class MulticastListener implements Runnable{
                     evaluateServerMessages(message, packet);
                     break;
                 case CLIENT_MESSAGE:
+                    evaluateClientMessages(message, packet);
                     break;
                 default:
                     //System.out.println("do default");
@@ -88,8 +87,22 @@ public class MulticastListener implements Runnable{
             case LEADER_ANNOUNCEMENT:
                 multicastServerService.handleLeaderAnnouncement(packet.getAddress());
                 break;
+            case REPLICATION:
+                multicastServerService.replicateVectorClock(serverMessage);
+                break;
         }
     }
+
+    private void evaluateClientMessages(Message message, DatagramPacket packet) {
+        ClientMessage clientMessage = (ClientMessage) message;
+        switch (clientMessage.getClientMessageType()) {
+            case REPLICATION:
+                multicastServerService.replicate(clientMessage);
+                break;
+        }
+    }
+
+
 }
 
 

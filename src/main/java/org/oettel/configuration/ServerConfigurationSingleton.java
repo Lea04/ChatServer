@@ -1,5 +1,7 @@
 package org.oettel.configuration;
 
+import org.oettel.model.message.ChatMessage;
+import org.oettel.model.message.ClientMessage;
 import org.oettel.model.vectorclock.VectorClockEntry;
 
 import java.net.InetAddress;
@@ -17,7 +19,8 @@ public class  ServerConfigurationSingleton {
     private int lastReplicated;
     private int sequenceNumber;
     private int queueIdCounter = 0;
-    HashMap<Integer, String> holdbackQueue = new HashMap<Integer, String>();
+    //HashMap<Integer, String> holdbackQueue = new HashMap<Integer, String>();
+    List<ClientMessage> holdbackQueue = new ArrayList<>();
 
 
 
@@ -84,9 +87,23 @@ public class  ServerConfigurationSingleton {
         this.sequenceNumber = sequenceNumber;
     }
 
-    public void addMessageToHoldbackQueue(String content) {
+//    public void addMessageToHoldbackQueue(String content) {
+//        this.queueIdCounter = queueIdCounter + 1;
+//        holdbackQueue.put(this.queueIdCounter, content);
+//    }
+
+    public void addMessageToHoldbackQueue(ClientMessage message) {
         this.queueIdCounter = queueIdCounter + 1;
-        holdbackQueue.put(this.queueIdCounter, content);
+        message.setQueueIdCounter(queueIdCounter);
+        holdbackQueue.add(message);
+    }
+
+    public int getQueueIdCounter() {
+        return queueIdCounter;
+    }
+
+    public List<ClientMessage> getHoldbackQueue() {
+        return holdbackQueue;
     }
 }
 
