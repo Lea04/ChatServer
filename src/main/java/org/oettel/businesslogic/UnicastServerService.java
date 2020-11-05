@@ -118,7 +118,7 @@ public class UnicastServerService {
 
     }
 
-    public void handleNack(ClientMessage message) throws IOException {
+    public void handleNack(ClientMessage message, InetAddress inetAddress) throws IOException {
         message.getQueueIdCounter();
         ServerConfigurationSingleton.getInstance().getHoldbackQueue().forEach(holdBackQueueEntry -> {
             if(holdBackQueueEntry.getQueueIdCounter() == message.getQueueIdCounter()){
@@ -126,7 +126,7 @@ public class UnicastServerService {
                 ClientMessage chatMessage = holdBackQueueEntry;
                 chatMessage.setClientMessageType(ClientMessageType.NACK);
                 String messageJson = mapper.writeValueAsString(chatMessage);
-                MessageSender messageSender = new MessageSender();
+                MessageSender messageSender = new MessageSender(inetAddress);
                 messageSender.sendMessage(messageJson);
                 messageSender.close();
             }catch (Exception e) {

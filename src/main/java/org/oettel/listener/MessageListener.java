@@ -100,7 +100,7 @@ public class MessageListener implements Runnable {
                 unicastServerService.handleChatMessage(clientMessage);
                 break;
             case NACK:
-                unicastServerService.handleNack(clientMessage);
+                unicastServerService.handleNack(clientMessage, inetAddress);
                 break;
             default:
                 break;
