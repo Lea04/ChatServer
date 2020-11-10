@@ -104,16 +104,18 @@ public class UnicastServerService {
 
         //Replication Message
 
-        MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
-        message.setClientMessageType(ClientMessageType.REPLICATION);
-        multicastSender.sendMulticast(mapper.writeValueAsString(message),Constants.MULTICAST_PORT);
-        multicastSender.close();
+//        MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
+//        message.setClientMessageType(ClientMessageType.REPLICATION);
+//        multicastSender.sendMulticast(mapper.writeValueAsString(message),Constants.MULTICAST_PORT);
+//        multicastSender.close();
 
         //Replication VectorClock
-        MulticastSender multicastSender2 = new MulticastSender(Constants.MULTICAST_PORT);
-        ServerMessage serverMessage = new ServerMessage(ServerMessageType.REPLICATION, "Replicate VectorClock", VectorClockSingleton.getInstance().getVectorClockEntryList());
-        multicastSender2.sendMulticast(mapper.writeValueAsString(serverMessage),Constants.MULTICAST_PORT);
-        multicastSender2.close();
+        if(ServerConfigurationSingleton.getInstance().getReplicaServer().size()>1) {
+            MulticastSender multicastSender2 = new MulticastSender(Constants.MULTICAST_PORT);
+            ServerMessage serverMessage = new ServerMessage(ServerMessageType.REPLICATION, "Replicate VectorClock", VectorClockSingleton.getInstance().getVectorClockEntryList());
+            multicastSender2.sendMulticast(mapper.writeValueAsString(serverMessage), Constants.MULTICAST_PORT);
+            multicastSender2.close();
+        }
 
 
     }
