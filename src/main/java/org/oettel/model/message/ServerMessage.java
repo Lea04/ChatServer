@@ -62,4 +62,8 @@ public class ServerMessage extends Message {
     public void setQueueIdCounter(int queueIdCounter) {
         this.queueIdCounter = queueIdCounter;
     }
+
+    public void setVectorClockEntryList(List<VectorClockEntry> vectorClockEntryList) {
+        this.vectorClockEntryList = vectorClockEntryList;
+    }
 }

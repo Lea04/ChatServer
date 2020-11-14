@@ -104,16 +104,17 @@ public class UnicastServerService {
 
         //Replication Message
 
-        Message repMessage = message;
+        ServerMessage repMessage = new ServerMessage();
         repMessage.setMessageType(MessageType.SERVER_MESSAGE);
-        ServerMessage repMessage2 = (ServerMessage) repMessage;
-        repMessage2.setServerMessageType(ServerMessageType.REPLICATION_QUEUE);
+        repMessage.setServerMessageType(ServerMessageType.REPLICATION_QUEUE);
+        repMessage.setContent(message.getContent());
+        repMessage.setVectorClockEntryList(message.getVectorClockEntries());
 
-        ServerConfigurationSingleton.getInstance().addMessageToHoldbackQueue(repMessage2);
+        ServerConfigurationSingleton.getInstance().addMessageToHoldbackQueue(repMessage);
 
         MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
 //        message.setClientMessageType(ClientMessageType.REPLICATION);
-        multicastSender.sendMulticast(mapper.writeValueAsString(repMessage2),Constants.MULTICAST_PORT);
+        multicastSender.sendMulticast(mapper.writeValueAsString(repMessage),Constants.MULTICAST_PORT);
         multicastSender.close();
 
         //Replication VectorClock
