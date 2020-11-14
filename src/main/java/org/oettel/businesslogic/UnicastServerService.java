@@ -24,12 +24,11 @@ public class UnicastServerService {
         System.out.println("Server receied BroadcastResponse from: "+inetAddress);
         if (!ServerConfigurationSingleton.getInstance().getReplicaServer().contains(inetAddress)) {
             ServerConfigurationSingleton.getInstance().getReplicaServer().add(inetAddress);
-            //TODO: State replication
         }
 
 
 
-        //TODO: Initiate Leader election
+        //Initiate Leader election
        ObjectMapper objectMapper = new ObjectMapper();
         Message electionInitiatingMessage = new ServerMessage(ServerMessageType.ELECTION_INITIATING_MESSAGE, "election_initiating_message");
         MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
@@ -117,7 +116,7 @@ public class UnicastServerService {
         multicastSender.sendMulticast(mapper.writeValueAsString(repMessage),Constants.MULTICAST_PORT);
         multicastSender.close();*/
 
-        //Replication VectorClock
+        //Replication
         if(ServerConfigurationSingleton.getInstance().getReplicaServer().size()>1) {
             MulticastSender multicastSender2 = new MulticastSender(Constants.MULTICAST_PORT);
             ServerMessage serverMessage = new ServerMessage(ServerMessageType.REPLICATION, "Replicate VectorClock", VectorClockSingleton.getInstance().getVectorClockEntryList());

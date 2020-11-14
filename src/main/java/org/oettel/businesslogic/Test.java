@@ -10,7 +10,7 @@ public class Test implements Runnable {
         ServerConfigurationSingleton.getInstance().setIsLeader(true);
     }else{ServerConfigurationSingleton.getInstance().setIsLeader(false);}*/
 
-        System.out.println("I am the Leader: "+ServerConfigurationSingleton.getInstance().getIsLeader() +".   The Leader is: "+ServerConfigurationSingleton.getInstance().getLeader());
+        System.out.println("----I AM THE LEADER: "+ServerConfigurationSingleton.getInstance().getIsLeader() +".   The Leader is: "+ServerConfigurationSingleton.getInstance().getLeader());
 
     }
 }
