@@ -64,4 +64,6 @@ public class ClientMessage extends Message {
     public void setQueueIdCounter(int queueIdCounter) {
         this.queueIdCounter = queueIdCounter;
     }
+
+
 }

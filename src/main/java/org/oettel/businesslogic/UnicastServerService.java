@@ -136,12 +136,12 @@ public class UnicastServerService {
                 ServerMessage serverMessage = holdBackQueueEntry;
 
 
-                //TODO: Probaply not working
-
-                Message messageCast = serverMessage;
-                messageCast.setMessageType(MessageType.CLIENT_MESSAGE);
-                ClientMessage clientMessage= (ClientMessage) messageCast;
+                ClientMessage clientMessage = new ClientMessage();
+                clientMessage.setMessageType(MessageType.CLIENT_MESSAGE);
                 clientMessage.setClientMessageType(ClientMessageType.NACK);
+                clientMessage.setContent(message.getContent());
+                clientMessage.setVectorClockEntries(message.getVectorClockEntries());
+
                 String messageJson = mapper.writeValueAsString(clientMessage);
 
                 MessageSender messageSender = new MessageSender(inetAddress);
