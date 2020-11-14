@@ -90,15 +90,18 @@ public class MulticastListener implements Runnable{
             case REPLICATION:
                 multicastServerService.replicateVectorClock(serverMessage);
                 break;
+            case REPLICATION_QUEUE:
+                multicastServerService.replicate(serverMessage);
+                break;
         }
     }
 
     private void evaluateClientMessages(Message message, DatagramPacket packet) {
         ClientMessage clientMessage = (ClientMessage) message;
         switch (clientMessage.getClientMessageType()) {
-            case REPLICATION:
-                multicastServerService.replicate(clientMessage);
-                break;
+//            case REPLICATION:
+//                multicastServerService.replicate(clientMessage);
+//                break;
         }
     }
 

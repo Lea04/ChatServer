@@ -2,6 +2,7 @@ package org.oettel.configuration;
 
 import org.oettel.model.message.ChatMessage;
 import org.oettel.model.message.ClientMessage;
+import org.oettel.model.message.ServerMessage;
 import org.oettel.model.vectorclock.VectorClockEntry;
 
 import java.net.InetAddress;
@@ -20,7 +21,7 @@ public class  ServerConfigurationSingleton {
     private int sequenceNumber;
     private int queueIdCounter = 0;
     //HashMap<Integer, String> holdbackQueue = new HashMap<Integer, String>();
-    List<ClientMessage> holdbackQueue = new ArrayList<>();
+    List<ServerMessage> holdbackQueue = new ArrayList<>();
 
 
 
@@ -92,7 +93,7 @@ public class  ServerConfigurationSingleton {
 //        holdbackQueue.put(this.queueIdCounter, content);
 //    }
 
-    public void addMessageToHoldbackQueue(ClientMessage message) {
+    public void addMessageToHoldbackQueue(ServerMessage message) {
         this.queueIdCounter = queueIdCounter + 1;
         message.setQueueIdCounter(queueIdCounter);
         holdbackQueue.add(message);
@@ -102,7 +103,7 @@ public class  ServerConfigurationSingleton {
         return queueIdCounter;
     }
 
-    public List<ClientMessage> getHoldbackQueue() {
+    public List<ServerMessage> getHoldbackQueue() {
         return holdbackQueue;
     }
 }

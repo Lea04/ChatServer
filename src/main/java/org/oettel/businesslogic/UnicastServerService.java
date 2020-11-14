@@ -85,7 +85,7 @@ public class UnicastServerService {
         message.getVectorClockEntries().forEach(externalVectorClockEntry -> {
             VectorClockSingleton.getInstance().updateExternalValues(externalVectorClockEntry);
         });
-        ServerConfigurationSingleton.getInstance().addMessageToHoldbackQueue(message);
+
         VectorClockSingleton.getInstance().updateVectorClock();
         VectorClockSingleton.getInstance().updateVectorClock();
         message.setVectorClockEntries(VectorClockSingleton.getInstance().getVectorClockEntryList());
@@ -104,10 +104,17 @@ public class UnicastServerService {
 
         //Replication Message
 
-//        MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
+        Message repMessage = message;
+        repMessage.setMessageType(MessageType.SERVER_MESSAGE);
+        ServerMessage repMessage2 = (ServerMessage) repMessage;
+        repMessage2.setServerMessageType(ServerMessageType.REPLICATION_QUEUE);
+
+        ServerConfigurationSingleton.getInstance().addMessageToHoldbackQueue(repMessage2);
+
+        MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
 //        message.setClientMessageType(ClientMessageType.REPLICATION);
-//        multicastSender.sendMulticast(mapper.writeValueAsString(message),Constants.MULTICAST_PORT);
-//        multicastSender.close();
+        multicastSender.sendMulticast(mapper.writeValueAsString(repMessage2),Constants.MULTICAST_PORT);
+        multicastSender.close();
 
         //Replication VectorClock
         if(ServerConfigurationSingleton.getInstance().getReplicaServer().size()>1) {
@@ -125,9 +132,17 @@ public class UnicastServerService {
         ServerConfigurationSingleton.getInstance().getHoldbackQueue().forEach(holdBackQueueEntry -> {
             if(holdBackQueueEntry.getQueueIdCounter() == message.getQueueIdCounter()){
             try {
-                ClientMessage chatMessage = holdBackQueueEntry;
-                chatMessage.setClientMessageType(ClientMessageType.NACK);
-                String messageJson = mapper.writeValueAsString(chatMessage);
+                ServerMessage serverMessage = holdBackQueueEntry;
+
+
+                //TODO: Probaply not working
+
+                Message messageCast = serverMessage;
+                messageCast.setMessageType(MessageType.CLIENT_MESSAGE);
+                ClientMessage clientMessage= (ClientMessage) messageCast;
+                clientMessage.setClientMessageType(ClientMessageType.NACK);
+                String messageJson = mapper.writeValueAsString(clientMessage);
+
                 MessageSender messageSender = new MessageSender(inetAddress);
                 messageSender.sendMessage(messageJson);
                 messageSender.close();

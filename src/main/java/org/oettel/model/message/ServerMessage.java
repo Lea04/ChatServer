@@ -16,6 +16,7 @@ import java.util.List;
 public class ServerMessage extends Message {
     private ServerMessageType serverMessageType;
     private List<VectorClockEntry> vectorClockEntryList;
+    private int queueIdCounter;
 
     public ServerMessage() {
     }
@@ -35,6 +36,13 @@ public class ServerMessage extends Message {
         this.vectorClockEntryList = vectorClockEntryList;
     }
 
+    public ServerMessage(ServerMessageType serverMessageType, String content, List<VectorClockEntry> vectorClockEntryList, int queueIdCounter) {
+        super(MessageType.CLIENT_MESSAGE, content);
+        this.serverMessageType = serverMessageType;
+        this.vectorClockEntryList = vectorClockEntryList;
+        this.queueIdCounter = queueIdCounter;
+    }
+
     public ServerMessageType getServerMessageType() {
         return serverMessageType;
     }
@@ -45,5 +53,13 @@ public class ServerMessage extends Message {
 
     public List<VectorClockEntry> getVectorClockEntryList() {
         return vectorClockEntryList;
+    }
+
+    public int getQueueIdCounter() {
+        return queueIdCounter;
+    }
+
+    public void setQueueIdCounter(int queueIdCounter) {
+        this.queueIdCounter = queueIdCounter;
     }
 }

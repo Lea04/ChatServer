@@ -59,7 +59,7 @@ public class MulticastServerService {
     }
 
 
-    public void replicate(ClientMessage message) {
+    public void replicate(ServerMessage message) {
         if(!ServerConfigurationSingleton.getInstance().getIsLeader()){
             ServerConfigurationSingleton.getInstance().getHoldbackQueue().add(message);
         }
