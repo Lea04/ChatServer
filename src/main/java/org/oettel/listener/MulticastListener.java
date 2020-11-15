@@ -58,7 +58,8 @@ public class MulticastListener implements Runnable{
             }
 
 
-            System.out.println("Server Received Multicast from: " + packet.getAddress() + " :: Mesage Type: " + message.getMessageType() + " :: Mesage conntnet: " + message.getContent() );
+            //System.out.println("Server Received Multicast from: " + packet.getAddress() + " :: Mesage Type: " + message.getMessageType() + " :: Mesage conntnet: " + message.getContent() );
+            System.out.println("Received Multicast from: " + packet.getAddress() + " :: Mesage conntnet: " + message.getContent() );
 
 
             switch (message.getMessageType()) {

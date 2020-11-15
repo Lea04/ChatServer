@@ -89,6 +89,7 @@ public class Main {
      * @throws UnknownHostException
      */
     private static void sendInitialBroadcast() throws SocketException, UnknownHostException {
+        System.out.println("Send initial Broadcast");
         BroadcastSender broadCastSender = new BroadcastSender();
         try {
             ObjectMapper mapper = new ObjectMapper();

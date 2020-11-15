@@ -52,7 +52,10 @@ public class BroadcastListener implements Runnable {
                 e.printStackTrace();
             }
 
-            System.out.println("Server Received Broadcast from: " + packet.getAddress() + " :: Mesage Type: " + message.getMessageType() + " :: Mesage conntnet: " + message.getContent() );
+            //System.out.println("Server Received Broadcast from: " + packet.getAddress() + " :: Mesage Type: " + message.getMessageType() + " :: Mesage conntnet: " + message.getContent() );
+            System.out.println("Received Broadcast from: " + packet.getAddress() +":: Mesage conntnet: " + message.getContent() );
+
+
 
             switch (message.getMessageType()) {
                 case SERVER_MESSAGE:

@@ -26,7 +26,7 @@ public class MessageSender implements Runnable{
     }
 
     public void sendMessage(String message) throws IOException {
-        System.out.println("MessageSender: " + message);
+        //System.out.println("MessageSender: " + message);
         PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
         writer.println(message);
         //System.out.println("Message Send!!!");

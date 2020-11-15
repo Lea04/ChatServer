@@ -41,7 +41,7 @@ public class BroadcastSender{
     }
 
     private void sendBroadcast(final InetAddress inetAddress) throws IOException {
-        System.out.println("Send Broadcast to: " + inetAddress.toString());
+        //System.out.println("Send Broadcast to: " + inetAddress.toString());
         DatagramPacket packet
                 = new DatagramPacket(buf, buf.length, inetAddress,
                 ServerConfigurationSingleton.getInstance().getServerPort());

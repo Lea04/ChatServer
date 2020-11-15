@@ -22,7 +22,7 @@ public class MulticastSender {
 
 
     public void sendMulticast(String msg, int port) throws IOException {
-        System.out.println("MulticastMessage: " + msg);
+        //System.out.println("MulticastMessage: " + msg);
         buf = msg.getBytes();
         DatagramPacket packet
                 = new DatagramPacket(buf, buf.length, addressGroup, port);
