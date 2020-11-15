@@ -6,14 +6,11 @@ import org.oettel.configuration.ServerConfigurationSingleton;
 import org.oettel.model.message.*;
 import org.oettel.model.vectorclock.VectorClockEntry;
 import org.oettel.model.vectorclock.VectorClockSingleton;
-import org.oettel.sender.MessageSender;
 import org.oettel.sender.MulticastSender;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MulticastServerService {
 
@@ -34,9 +31,21 @@ public class MulticastServerService {
 
     public void respondToClientVectorMessage(InetAddress address) {
         System.out.println("Server sends CLIENT_VECTOR_RESPONSE to: " + address.toString());
-        VectorClockSingleton
-                .getInstance()
-                .addVectorClockEntryToList(new VectorClockEntry(address, 0));
+
+        AtomicBoolean test = new AtomicBoolean(true);
+        VectorClockSingleton.getInstance().getVectorClockEntryList().forEach(vectorClockEntry -> {
+            if(vectorClockEntry.getIpAdress().equals(address)){
+                test.set(false);
+            }
+            else{}
+        });
+
+        if(test.get()) {
+            VectorClockSingleton
+                    .getInstance()
+                    .addVectorClockEntryToList(new VectorClockEntry(address, 0));
+        }
+
         VectorClockSingleton.getInstance().getVectorClockEntryList().forEach(vectorClockEntry -> {
             System.out.print("Address: " + vectorClockEntry.getIpAdress().toString() + " ");
             System.out.println("Clockcount: " + vectorClockEntry.getClockCount());
