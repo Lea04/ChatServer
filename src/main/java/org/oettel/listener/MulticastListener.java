@@ -15,9 +15,9 @@ public class MulticastListener implements Runnable{
 
     private MulticastSocket multicastSocket;
     private boolean running;
-    private byte[] buf = new byte[256];
+    private byte[] buf = new byte[556];
     private InetAddress addressGroup;
-    byte[] receivedJson =new byte[256];
+    byte[] receivedJson =new byte[556];
     ObjectMapper mapper = new ObjectMapper();
     private MulticastServerService multicastServerService;
 

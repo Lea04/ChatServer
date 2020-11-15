@@ -102,7 +102,7 @@ public class UnicastServerService {
         });
 
         //Replication Message
-/*
+
         ServerMessage repMessage = new ServerMessage();
         repMessage.setMessageType(MessageType.SERVER_MESSAGE);
         repMessage.setServerMessageType(ServerMessageType.REPLICATION_QUEUE);
@@ -114,7 +114,7 @@ public class UnicastServerService {
         MulticastSender multicastSender = new MulticastSender(Constants.MULTICAST_PORT);
 //        message.setClientMessageType(ClientMessageType.REPLICATION);
         multicastSender.sendMulticast(mapper.writeValueAsString(repMessage),Constants.MULTICAST_PORT);
-        multicastSender.close();*/
+        multicastSender.close();
 
         //Replication
         if(ServerConfigurationSingleton.getInstance().getReplicaServer().size()>1) {

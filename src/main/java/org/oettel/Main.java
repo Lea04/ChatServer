@@ -94,6 +94,7 @@ public class Main {
             ObjectMapper mapper = new ObjectMapper();
             Message message = new ServerMessage(ServerMessageType.BROADCAST, "broadcast");
             broadCastSender.sendEcho(mapper.writeValueAsString(message));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -119,7 +120,7 @@ public class Main {
         //The initial heartbeat is written in the run method of the message sender.
         ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(10);
         Test test = new Test();
-        scheduledPool.scheduleAtFixedRate(test, 10,10, TimeUnit.SECONDS);
+        scheduledPool.scheduleAtFixedRate(test, 3,10, TimeUnit.SECONDS);
 
     }
 
