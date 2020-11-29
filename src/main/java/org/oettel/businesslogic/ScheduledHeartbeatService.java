@@ -24,6 +24,15 @@ public class ScheduledHeartbeatService implements Runnable {
     public void run() {
         ObjectMapper mapper = new ObjectMapper();
 
+        System.out.println("~ Heartbeat");
+        if(ServerConfigurationSingleton.getInstance().getIsLeader()){
+            System.out.println("    YES I am the Leader! \n" +
+                    "        My IP is the Leader IP: "+ServerConfigurationSingleton.getInstance().getLeader());
+        }else{
+            System.out.println("    NO I am NOT the Leader! \n" +
+                    "        The Leader is: "+ServerConfigurationSingleton.getInstance().getLeader());
+        }
+
 
         HeartbeatListSingleton.getInstance().getHeartbeatList().forEach(heartbeat -> {
             //System.out.println("Heartbeatstatus: " + heartbeat.getInetAddress().toString() + " " + heartbeat.getIsHeartbeatOK());

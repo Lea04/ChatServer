@@ -35,7 +35,6 @@ public class Main {
         initialConfigurationOfServer(SERVER_PORT);
         startingListener();
         sendInitialBroadcast();
-        checkLeader();
         sendHeartbeat();
     }
 
@@ -54,7 +53,7 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println("#### initialization of server completed ####");
+        System.out.println("#### initialization of server completed ####\n");
     }
 
 
@@ -89,7 +88,6 @@ public class Main {
      * @throws UnknownHostException
      */
     private static void sendInitialBroadcast() throws SocketException, UnknownHostException {
-        System.out.println("Send initial Broadcast");
         BroadcastSender broadCastSender = new BroadcastSender();
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -99,6 +97,7 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("\nSend initial Broadcast");
     }
 
     /**
@@ -115,14 +114,6 @@ public class Main {
         ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(10);
         ScheduledHeartbeatService scheduledHeartbeatService = new ScheduledHeartbeatService();
         scheduledPool.scheduleAtFixedRate(scheduledHeartbeatService, 30,10, TimeUnit.SECONDS);
-    }
-
-    private static void checkLeader() throws IOException {
-        //The initial heartbeat is written in the run method of the message sender.
-        ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(10);
-        Test test = new Test();
-        scheduledPool.scheduleAtFixedRate(test, 3,10, TimeUnit.SECONDS);
-
     }
 
 }

@@ -45,7 +45,7 @@ public class MessageListener implements Runnable {
                 message = mapper.readValue(responseFromScanner, Message.class);
 
                 //System.out.println("Server Received Unicast from: " + socket.getInetAddress() + " :: Mesage Type: " + message.getMessageType() + " :: Mesage conntnet: " + message.getContent() );
-                System.out.println("Received Unicast from: " + socket.getInetAddress() + " :: Mesage conntnet: " + message.getContent() );
+                //System.out.println("Received Unicast from: " + socket.getInetAddress() + " :: Mesage conntnet: " + message.getContent() );
 
 
                 switch (message.getMessageType()) {

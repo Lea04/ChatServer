@@ -25,7 +25,7 @@ public class BroadcastListener implements Runnable {
         this.multicastServerService = multicastServerService;
         System.out.println("#### Initialization of Broadcast listener ####");
         socket = new DatagramSocket(ServerConfigurationSingleton.getInstance().getServerPort());
-        System.out.println("#### Broadcast listener initialized ####");
+        System.out.println("#### Broadcast listener initialized ####\n");
     }
 
     @Override
@@ -53,7 +53,7 @@ public class BroadcastListener implements Runnable {
             }
 
             //System.out.println("Server Received Broadcast from: " + packet.getAddress() + " :: Mesage Type: " + message.getMessageType() + " :: Mesage conntnet: " + message.getContent() );
-            System.out.println("Received Broadcast from: " + packet.getAddress() +":: Mesage conntnet: " + message.getContent() );
+            //System.out.println("Received Broadcast from: " + packet.getAddress() +":: Mesage conntnet: " + message.getContent() );
 
 
 

@@ -54,7 +54,7 @@ public class MessageSender implements Runnable{
                 e.printStackTrace();
             }
         });
-        System.out.println("#### Initial heartbeat was send####");
+        System.out.println("#### Initial heartbeat was send####\n");
     }
 
     private void rebuildSocket(InetAddress inetAddress) throws IOException {

@@ -18,7 +18,7 @@ public class BroadcastServerService {
      * @param address
      */
     public void respondToBroadcastMessage(InetAddress address) {
-        System.out.print("Server sends BROADCAST_RESPONSE to: " + address.toString() + " :: ");
+        System.out.print("\nServer sends BROADCAST_RESPONSE to: " + address.toString() + " \n");
         try {
             MessageSender messageSender = new MessageSender(address);
             Message message = new ServerMessage(ServerMessageType.BROADCAST_RESPONSE, "broadcast_response");
