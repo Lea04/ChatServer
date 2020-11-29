@@ -30,7 +30,7 @@ public class BroadcastListener implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Server Broadcastlistener started...");
+        System.out.println("Server BroadcastListener started...");
         running = true;
 
         while (running) {
@@ -76,7 +76,7 @@ public class BroadcastListener implements Runnable {
 
         }
         socket.close();
-        System.out.println("Server Broadcastlistener stopped...");
+        System.out.println("Server BroadcastListener stopped...");
     }
 
     private void evaluateServerMessages(Message message, DatagramPacket packet) throws IOException {

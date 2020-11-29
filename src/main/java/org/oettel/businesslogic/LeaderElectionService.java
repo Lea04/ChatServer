@@ -5,7 +5,7 @@ package org.oettel.businesslogic;
 import org.oettel.configuration.Constants;
 import org.oettel.configuration.ServerConfigurationSingleton;
 import org.oettel.model.message.*;
-import org.oettel.sender.MessageSender;
+import org.oettel.sender.UnicastSender;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -47,18 +47,18 @@ public class LeaderElectionService implements Runnable {
 
     private void sendElectionMessage(InetAddress inetAddress, boolean isLeader) throws IOException {
         System.out.println("Election Message send to" + inetAddress);
-        MessageSender messageSender = new MessageSender(get_neighbour());
+        UnicastSender unicastSender = new UnicastSender(get_neighbour());
         ObjectMapper mapper = new ObjectMapper();
         Message electionMessage = new ElectionMessage(ServerMessageType.ELECTION_MESSAGE,"election_message", inetAddress, isLeader);
-        messageSender.sendMessage(mapper.writeValueAsString(electionMessage));
+        unicastSender.sendMessage(mapper.writeValueAsString(electionMessage));
     }
 
     private void sendLeaderMessage(InetAddress inetAddress, boolean isLeader) throws IOException {
         System.out.println("Leader Message send to" + inetAddress);
-        MessageSender messageSender = new MessageSender(get_neighbour());
+        UnicastSender unicastSender = new UnicastSender(get_neighbour());
         ObjectMapper mapper = new ObjectMapper();
         Message electionMessage = new ElectionMessage(ServerMessageType.LEADER_MESSAGE,"leader_message", inetAddress, isLeader);
-        messageSender.sendMessage(mapper.writeValueAsString(electionMessage));
+        unicastSender.sendMessage(mapper.writeValueAsString(electionMessage));
     }
 
     public void receiveElectionMessage(InetAddress mid, boolean isLeader) throws IOException {
@@ -108,16 +108,16 @@ public class LeaderElectionService implements Runnable {
     public void startElection() {
         formRing();
         ServerConfigurationSingleton.getInstance().setIsLeader(false);
-        MessageSender messageSender;
+        UnicastSender unicastSender;
         try {
-            messageSender = new MessageSender(get_neighbour());
+            unicastSender = new UnicastSender(get_neighbour());
 
             ObjectMapper mapper = new ObjectMapper();
 
             ElectionMessage electionMessage = new ElectionMessage(ServerMessageType.ELECTION_MESSAGE,"election_message", ServerConfigurationSingleton.getInstance().getServerAddress(), false);
 
             String jsonString = mapper.writeValueAsString(electionMessage);
-            messageSender.sendMessage(jsonString);
+            unicastSender.sendMessage(jsonString);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -128,16 +128,16 @@ public class LeaderElectionService implements Runnable {
     public void run() {
         formRing();
         ServerConfigurationSingleton.getInstance().setIsLeader(false);
-        MessageSender messageSender;
+        UnicastSender unicastSender;
         try {
-            messageSender = new MessageSender(get_neighbour());
+            unicastSender = new UnicastSender(get_neighbour());
 
             ObjectMapper mapper = new ObjectMapper();
 
             ElectionMessage electionMessage = new ElectionMessage(ServerMessageType.ELECTION_MESSAGE,"election_message", ServerConfigurationSingleton.getInstance().getServerAddress(), false);
 
             String jsonString = mapper.writeValueAsString(electionMessage);
-            messageSender.sendMessage(jsonString);
+            unicastSender.sendMessage(jsonString);
 
         } catch (IOException e) {
             e.printStackTrace();

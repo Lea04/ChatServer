@@ -6,7 +6,7 @@ import org.oettel.configuration.HeartbeatListSingleton;
 import org.oettel.configuration.ServerConfigurationSingleton;
 import org.oettel.model.message.*;
 import org.oettel.model.vectorclock.VectorClockSingleton;
-import org.oettel.sender.MessageSender;
+import org.oettel.sender.UnicastSender;
 import org.oettel.sender.MulticastSender;
 
 import java.io.IOException;
@@ -35,8 +35,8 @@ public class UnicastServerService {
         ObjectMapper mapper = new ObjectMapper();
         Message heartbeatResponseMessage = new ServerMessage(ServerMessageType.HEARTBEAT_RESPONSE, "heartbeat_response");
         String receivedJson = mapper.writeValueAsString(heartbeatResponseMessage);
-        MessageSender messageSender = new MessageSender(inetAddress);
-        messageSender.sendMessage(receivedJson);
+        UnicastSender unicastSender = new UnicastSender(inetAddress);
+        unicastSender.sendMessage(receivedJson);
     }
 
     /**
@@ -138,9 +138,9 @@ public class UnicastServerService {
 
                 String messageJson = mapper.writeValueAsString(clientMessage);
 
-                MessageSender messageSender = new MessageSender(inetAddress);
-                messageSender.sendMessage(messageJson);
-                messageSender.close();
+                UnicastSender unicastSender = new UnicastSender(inetAddress);
+                unicastSender.sendMessage(messageJson);
+                unicastSender.close();
             }catch (Exception e) {
                     e.printStackTrace();
             }

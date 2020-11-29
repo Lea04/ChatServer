@@ -3,9 +3,7 @@ package org.oettel.businesslogic;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.oettel.configuration.ServerConfigurationSingleton;
 import org.oettel.model.message.*;
-import org.oettel.model.vectorclock.VectorClockEntry;
-import org.oettel.model.vectorclock.VectorClockSingleton;
-import org.oettel.sender.MessageSender;
+import org.oettel.sender.UnicastSender;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -20,12 +18,12 @@ public class BroadcastServerService {
     public void respondToBroadcastMessage(InetAddress address) {
         System.out.print("\nSend Broadcast Response to: " + address.toString() + " \n");
         try {
-            MessageSender messageSender = new MessageSender(address);
+            UnicastSender unicastSender = new UnicastSender(address);
             Message message = new ServerMessage(ServerMessageType.BROADCAST_RESPONSE, "broadcast_response");
             ObjectMapper mapper = new ObjectMapper();
             String messageAsJson = mapper.writeValueAsString(message);
-            messageSender.sendMessage(messageAsJson);
-            messageSender.close();
+            unicastSender.sendMessage(messageAsJson);
+            unicastSender.close();
 
 
         } catch (IOException e) {
@@ -42,12 +40,12 @@ public class BroadcastServerService {
     public void respondToClientBroadcastMessage(InetAddress address) {
         System.out.println("Server sends CLIENT_BROADCAST_RESPONSE to: " + address.toString());
         try {
-            MessageSender messageSender = new MessageSender(address);
+            UnicastSender unicastSender = new UnicastSender(address);
             Message message = new ClientMessage(ClientMessageType.CLIENT_BROADCAST_RESPONSE, "CLIENT_BROADCAST_RESPONSE");
             ObjectMapper mapper = new ObjectMapper();
             String messageAsJson = mapper.writeValueAsString(message);
-            messageSender.sendMessage(messageAsJson);
-            messageSender.close();
+            unicastSender.sendMessage(messageAsJson);
+            unicastSender.close();
 
 
         } catch (IOException e) {
@@ -61,8 +59,8 @@ public class BroadcastServerService {
         ObjectMapper mapper = new ObjectMapper();
         Message heartbeatResponseMessage = new ServerMessage(ServerMessageType.HEARTBEAT_RESPONSE, "heartbeat_response");
         String receivedJson = mapper.writeValueAsString(heartbeatResponseMessage);
-        MessageSender messageSender = new MessageSender(inetAddress);
-        messageSender.sendMessage(receivedJson);
+        UnicastSender unicastSender = new UnicastSender(inetAddress);
+        unicastSender.sendMessage(receivedJson);
     }
 
 

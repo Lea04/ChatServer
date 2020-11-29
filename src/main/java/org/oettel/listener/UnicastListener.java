@@ -13,7 +13,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class MessageListener implements Runnable {
+public class UnicastListener implements Runnable {
     private ServerSocket serverSocket;
     private boolean running;
     private ObjectMapper mapper;
@@ -21,7 +21,7 @@ public class MessageListener implements Runnable {
 //    private ElectionMessage electionMessage;
     private UnicastServerService unicastServerService;
 
-    public MessageListener(UnicastServerService unicastServerService) throws IOException {
+    public UnicastListener(UnicastServerService unicastServerService) throws IOException {
         this.unicastServerService = unicastServerService;
         this.serverSocket = new ServerSocket(ServerConfigurationSingleton.getInstance().getServerPort());
         this.mapper = new ObjectMapper();
@@ -30,7 +30,7 @@ public class MessageListener implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Messagetlistener started...");
+        System.out.println("UnicastListener started...");
         running = true;
 
 
@@ -68,7 +68,7 @@ public class MessageListener implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("MessageListener stopped...");
+        System.out.println("UnicastListener stopped...");
     }
 
     private void evaluateServerMessages(Message message, InetAddress inetAddress) throws IOException {

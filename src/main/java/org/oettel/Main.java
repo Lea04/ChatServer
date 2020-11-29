@@ -4,14 +4,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.oettel.businesslogic.*;
 import org.oettel.configuration.ServerConfigurationSingleton;
 import org.oettel.listener.BroadcastListener;
-import org.oettel.listener.MessageListener;
+import org.oettel.listener.UnicastListener;
 
 import org.oettel.listener.MulticastListener;
 import org.oettel.model.message.Message;
 import org.oettel.model.message.ServerMessage;
 import org.oettel.model.message.ServerMessageType;
 import org.oettel.sender.BroadcastSender;
-import org.oettel.sender.MessageSender;
+import org.oettel.sender.UnicastSender;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -67,10 +67,10 @@ public class Main {
 
         try {
             BroadcastListener broadcastListener = new BroadcastListener(new BroadcastServerService(), new MulticastServerService());
-            MessageListener messageListener = new MessageListener(new UnicastServerService());
+            UnicastListener unicastListener = new UnicastListener(new UnicastServerService());
             MulticastListener multicastListener = new MulticastListener();
             pool.execute(broadcastListener);
-            pool.execute(messageListener);
+            pool.execute(unicastListener);
             pool.execute(multicastListener);
 
         } catch (SocketException e) {
@@ -108,8 +108,8 @@ public class Main {
     private static void sendHeartbeat() throws IOException {
         //The initial heartbeat is written in the run method of the message sender.
         ScheduledExecutorService pool = Executors.newSingleThreadScheduledExecutor();
-        MessageSender messageSender = new MessageSender();
-        pool.schedule(messageSender,20,TimeUnit.SECONDS);
+        UnicastSender unicastSender = new UnicastSender();
+        pool.schedule(unicastSender,20,TimeUnit.SECONDS);
 
         ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(10);
         ScheduledHeartbeatService scheduledHeartbeatService = new ScheduledHeartbeatService();

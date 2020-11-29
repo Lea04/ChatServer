@@ -13,14 +13,14 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
-public class MessageSender implements Runnable{
+public class UnicastSender implements Runnable{
     private Socket socket;
     private ObjectMapper mapper;
 
-    public MessageSender() {
+    public UnicastSender() {
     }
 
-    public MessageSender(final InetAddress address) throws IOException {
+    public UnicastSender(final InetAddress address) throws IOException {
         this.socket = new Socket(address, ServerConfigurationSingleton.getInstance().getServerPort());
         this.mapper = new ObjectMapper();
     }

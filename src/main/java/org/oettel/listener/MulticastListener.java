@@ -34,7 +34,7 @@ public class MulticastListener implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("Multicastlistener started...");
+        System.out.println("MulticastListener started...");
         running = true;
 
         while (running) {
@@ -76,7 +76,7 @@ public class MulticastListener implements Runnable{
             }
         }
         multicastSocket.close();
-        System.out.println("Multicastlistener stopped...");
+        System.out.println("MulticastListener stopped...");
     }
 
     private void evaluateServerMessages(Message message, DatagramPacket packet) {

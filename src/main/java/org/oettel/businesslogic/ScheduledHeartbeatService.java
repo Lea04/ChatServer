@@ -1,6 +1,5 @@
 package org.oettel.businesslogic;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.oettel.configuration.HeartbeatListSingleton;
 import org.oettel.configuration.ServerConfigurationSingleton;
@@ -9,12 +8,10 @@ import org.oettel.model.message.Message;
 import org.oettel.model.message.ServerMessage;
 import org.oettel.model.message.ServerMessageType;
 import org.oettel.sender.BroadcastSender;
-import org.oettel.sender.MessageSender;
+import org.oettel.sender.UnicastSender;
 
 import java.io.IOException;
 import java.net.ConnectException;
-import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -93,9 +90,9 @@ public class ScheduledHeartbeatService implements Runnable {
             try {
                 Message heartbeatMessage = new ServerMessage(ServerMessageType.HEARTBEAT, "heartbeat");
                 String messageJson = mapper.writeValueAsString(heartbeatMessage);
-                MessageSender messageSender = new MessageSender(inetAddress);
-                messageSender.sendMessage(messageJson);
-                messageSender.close();
+                UnicastSender unicastSender = new UnicastSender(inetAddress);
+                unicastSender.sendMessage(messageJson);
+                unicastSender.close();
 
                 BroadcastSender broadcastSender = new BroadcastSender();
                 broadcastSender.sendEcho(messageJson);
