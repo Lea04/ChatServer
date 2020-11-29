@@ -46,7 +46,7 @@ public class LeaderElectionService implements Runnable {
     }
 
     private void sendElectionMessage(InetAddress inetAddress, boolean isLeader) throws IOException {
-        //System.out.println("Election Message send to" + inetAddress);
+        System.out.println("Election Message send to" + inetAddress);
         MessageSender messageSender = new MessageSender(get_neighbour());
         ObjectMapper mapper = new ObjectMapper();
         Message electionMessage = new ElectionMessage(ServerMessageType.ELECTION_MESSAGE,"election_message", inetAddress, isLeader);
@@ -54,7 +54,7 @@ public class LeaderElectionService implements Runnable {
     }
 
     private void sendLeaderMessage(InetAddress inetAddress, boolean isLeader) throws IOException {
-        //System.out.println("Leader Message send to" + inetAddress);
+        System.out.println("Leader Message send to" + inetAddress);
         MessageSender messageSender = new MessageSender(get_neighbour());
         ObjectMapper mapper = new ObjectMapper();
         Message electionMessage = new ElectionMessage(ServerMessageType.LEADER_MESSAGE,"leader_message", inetAddress, isLeader);
