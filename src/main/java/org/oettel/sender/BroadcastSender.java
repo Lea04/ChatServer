@@ -73,32 +73,6 @@ public class BroadcastSender{
         socket.close();
     }
 
-/*    @Override
-    public void run() {
-        //System.out.println("#### Send initial heartbeat ####");
-        ServerConfigurationSingleton.getInstance().getReplicaServer().forEach(inetAddress -> {
-            Heartbeat heartbeat = new Heartbeat(inetAddress, false);
-            HeartbeatListSingleton.getInstance().addReplicaToHeartbeatList(heartbeat);
-
-        });
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            Message heartbeatMessage = new ServerMessage(ServerMessageType.HEARTBEAT, "heartbeat");
-            String receivedJson = mapper.writeValueAsString(heartbeatMessage);
-            this.rebuildSocket();
-            this.sendEcho(receivedJson);
-            this.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // System.out.println("#### Initial heartbeat was send####");
-    }
-
-    private void rebuildSocket() throws IOException {
-        this.socket = new DatagramSocket(); }*/
-
 
 }
 

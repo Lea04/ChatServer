@@ -69,7 +69,7 @@ public class BroadcastListener implements Runnable {
                     evaluateClientMessages(message, packet);
                     break;
                 default:
-                    //System.out.println("do default");
+                    System.out.println("do default");
                     break;
 
             }
@@ -87,9 +87,6 @@ public class BroadcastListener implements Runnable {
                 break;
             case HEARTBEAT:
                 broadcastServerService.respondToHeartbeat(packet.getAddress());
-                break;
-            case ELECTION_MESSAGE:
-                //TODO:
                 break;
         }
     }

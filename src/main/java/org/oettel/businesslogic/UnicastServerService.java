@@ -21,7 +21,7 @@ public class UnicastServerService {
     ObjectMapper mapper = new ObjectMapper();
 
     public void handleBroadcastResponseMessage(InetAddress inetAddress) throws IOException {
-        System.out.println("Server receied BroadcastResponse from: "+inetAddress+"\n");
+        System.out.println("Received Broadcast Response from: "+inetAddress+"\n");
         if (!ServerConfigurationSingleton.getInstance().getReplicaServer().contains(inetAddress)) {
             ServerConfigurationSingleton.getInstance().getReplicaServer().add(inetAddress);
         }
