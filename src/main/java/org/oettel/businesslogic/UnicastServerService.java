@@ -91,6 +91,7 @@ public class UnicastServerService {
         Message messageForwarder = message;
         multicastSenderClient.sendMulticast(objectMapper.writeValueAsString(messageForwarder), Constants.CLIENT_MULTICAST_PORT);
 
+        System.out.println("\n Vector Clock:");
         VectorClockSingleton.getInstance().getVectorClockEntryList().forEach(vectorClockEntry -> {
             System.out.print("Address: " + vectorClockEntry.getIpAdress().toString() + " ");
             System.out.println("Clockcount: " + vectorClockEntry.getClockCount());
