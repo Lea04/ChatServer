@@ -22,7 +22,7 @@ public class ScheduledHeartbeatService implements Runnable {
         ObjectMapper mapper = new ObjectMapper();
 
         System.out.println("~ Heartbeat");
-        System.out.println("    Leader:" +ServerConfigurationSingleton.getInstance().getIsLeader()+
+        System.out.println("    Leader: " +ServerConfigurationSingleton.getInstance().getIsLeader()+
                 "\n        leader IP: "+ServerConfigurationSingleton.getInstance().getLeader());
 
 
