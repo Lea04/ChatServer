@@ -1,27 +1,22 @@
 package org.oettel.businesslogic;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.oettel.configuration.Constants;
 import org.oettel.configuration.HeartbeatListSingleton;
 import org.oettel.configuration.ServerConfigurationSingleton;
 import org.oettel.model.message.*;
-import org.oettel.model.vectorclock.VectorClockEntry;
 import org.oettel.model.vectorclock.VectorClockSingleton;
 import org.oettel.sender.MessageSender;
 import org.oettel.sender.MulticastSender;
 
 import java.io.IOException;
 import java.net.InetAddress;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class UnicastServerService {
     ObjectMapper mapper = new ObjectMapper();
 
     public void handleBroadcastResponseMessage(InetAddress inetAddress) throws IOException {
-        System.out.println("Received Broadcast Response from: "+inetAddress+"\n");
+        System.out.println("Got Broadcast Response from: "+inetAddress+"\n");
         if (!ServerConfigurationSingleton.getInstance().getReplicaServer().contains(inetAddress)) {
             ServerConfigurationSingleton.getInstance().getReplicaServer().add(inetAddress);
         }
@@ -129,7 +124,7 @@ public class UnicastServerService {
 
     public void handleNack(ClientMessage message, InetAddress inetAddress) throws IOException {
         message.getQueueIdCounter();
-        ServerConfigurationSingleton.getInstance().getHoldbackQueue().forEach(holdBackQueueEntry -> {
+        ServerConfigurationSingleton.getInstance().getMessageQueue().forEach(holdBackQueueEntry -> {
             if(holdBackQueueEntry.getQueueIdCounter() == message.getQueueIdCounter()){
             try {
                 ServerMessage serverMessage = holdBackQueueEntry;

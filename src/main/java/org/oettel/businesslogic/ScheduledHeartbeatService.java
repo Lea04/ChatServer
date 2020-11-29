@@ -26,10 +26,10 @@ public class ScheduledHeartbeatService implements Runnable {
 
         System.out.println("~ Heartbeat");
         if(ServerConfigurationSingleton.getInstance().getIsLeader()){
-            System.out.println("    YES I am the Leader! \n" +
-                    "        My IP is the Leader IP: "+ServerConfigurationSingleton.getInstance().getLeader());
+            System.out.println("    YES I am the leader! \n" +
+                    "        My IP = leader IP: "+ServerConfigurationSingleton.getInstance().getLeader());
         }else{
-            System.out.println("    NO I am NOT the Leader! \n" +
+            System.out.println("    NO I am NOT the leader! \n" +
                     "        The Leader is: "+ServerConfigurationSingleton.getInstance().getLeader());
         }
 
