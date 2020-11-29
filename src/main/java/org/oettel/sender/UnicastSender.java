@@ -39,7 +39,7 @@ public class UnicastSender implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("#### Send initial heartbeat ####");
+        System.out.println("\n#### Send initial heartbeat ####");
         ServerConfigurationSingleton.getInstance().getReplicaServer().forEach(inetAddress -> {
             Heartbeat heartbeat = new Heartbeat(inetAddress, false);
             HeartbeatListSingleton.getInstance().addReplicaToHeartbeatList(heartbeat);
