@@ -37,6 +37,7 @@ public class UnicastServerService {
         String receivedJson = mapper.writeValueAsString(heartbeatResponseMessage);
         UnicastSender unicastSender = new UnicastSender(inetAddress);
         unicastSender.sendMessage(receivedJson);
+        unicastSender.close();
     }
 
     /**

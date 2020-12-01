@@ -51,6 +51,7 @@ public class LeaderElectionService implements Runnable {
         ObjectMapper mapper = new ObjectMapper();
         Message electionMessage = new ElectionMessage(ServerMessageType.ELECTION_MESSAGE,"election_message", inetAddress, isLeader);
         unicastSender.sendMessage(mapper.writeValueAsString(electionMessage));
+        unicastSender.close();
     }
 
     private void sendLeaderMessage(InetAddress inetAddress, boolean isLeader) throws IOException {
@@ -59,6 +60,7 @@ public class LeaderElectionService implements Runnable {
         ObjectMapper mapper = new ObjectMapper();
         Message electionMessage = new ElectionMessage(ServerMessageType.LEADER_MESSAGE,"leader_message", inetAddress, isLeader);
         unicastSender.sendMessage(mapper.writeValueAsString(electionMessage));
+        unicastSender.close();
     }
 
     public void receiveElectionMessage(InetAddress mid, boolean isLeader) throws IOException {
@@ -118,6 +120,7 @@ public class LeaderElectionService implements Runnable {
 
             String jsonString = mapper.writeValueAsString(electionMessage);
             unicastSender.sendMessage(jsonString);
+            unicastSender.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -138,6 +141,7 @@ public class LeaderElectionService implements Runnable {
 
             String jsonString = mapper.writeValueAsString(electionMessage);
             unicastSender.sendMessage(jsonString);
+            unicastSender.close();
 
         } catch (IOException e) {
             e.printStackTrace();
