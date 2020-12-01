@@ -61,6 +61,7 @@ public class BroadcastServerService {
         String receivedJson = mapper.writeValueAsString(heartbeatResponseMessage);
         UnicastSender unicastSender = new UnicastSender(inetAddress);
         unicastSender.sendMessage(receivedJson);
+        unicastSender.close();
     }
 
 
