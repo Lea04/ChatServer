@@ -29,6 +29,8 @@ public class UnicastSender implements Runnable{
         //System.out.println("MessageSender: " + message);
         PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
         writer.println(message);
+        writer.flush();
+        writer.close();
         //System.out.println("Message Send!!!");
     }
 
