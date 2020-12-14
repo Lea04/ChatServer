@@ -48,7 +48,6 @@ public class Main {
         ServerConfigurationSingleton.getInstance().setServerPort(serverPort);
         try {
             ServerConfigurationSingleton.getInstance().setServerAddress(InetAddress.getByAddress(InetAddress.getLocalHost().getAddress()));
-            ServerConfigurationSingleton.getInstance().setSequenceNumber(0);
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
