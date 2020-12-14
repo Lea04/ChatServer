@@ -61,14 +61,13 @@ public class UnicastServerService {
      * @throws IOException
      */
     public void handleElectionMessage(ElectionMessage message) throws IOException {
-
         LeaderElectionService leaderElection = new LeaderElectionService();
         leaderElection.receiveElectionMessage(message.getMid(), message.isLeader());
 
     }
 
     public void handleLeaderMessage(ElectionMessage message) throws IOException {
-
+        ServerConfigurationSingleton.getInstance().setElectionActive(false);
         LeaderElectionService leaderElection = new LeaderElectionService();
         leaderElection.receiveElectionMessage(message.getMid(), message.isLeader());
 

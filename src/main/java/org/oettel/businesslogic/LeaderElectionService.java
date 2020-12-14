@@ -129,6 +129,7 @@ public class LeaderElectionService implements Runnable {
 
     @Override
     public void run() {
+        ServerConfigurationSingleton.getInstance().setElectionActive(true);
         formRing();
         ServerConfigurationSingleton.getInstance().setIsLeader(false);
         UnicastSender unicastSender;

@@ -12,8 +12,7 @@ public class  ServerConfigurationSingleton {
     private InetAddress serverAddress;
     private InetAddress leader;
     private boolean isLeader;
-    private int lastReplicated;
-    private int sequenceNumber;
+    private boolean electionActive;
     private int queueIdCounter = 0;
     List<ServerMessage> messageQueue = new ArrayList<>();
 
@@ -78,14 +77,7 @@ public class  ServerConfigurationSingleton {
         return replicaServer;
     }
 
-    public void setSequenceNumber(int sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
 
-//    public void addMessageToHoldbackQueue(String content) {
-//        this.queueIdCounter = queueIdCounter + 1;
-//        holdbackQueue.put(this.queueIdCounter, content);
-//    }
 
     public void addMessageToHoldbackQueue(ServerMessage message) {
         this.queueIdCounter = queueIdCounter + 1;
@@ -99,6 +91,10 @@ public class  ServerConfigurationSingleton {
 
     public List<ServerMessage> getMessageQueue() {
         return messageQueue;
+    }
+
+    public void setElectionActive(boolean electionActive) {
+        this.electionActive = electionActive;
     }
 }
 
