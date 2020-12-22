@@ -134,7 +134,7 @@ public class UnicastServerService {
                 ClientMessage clientMessage = new ClientMessage();
                 clientMessage.setMessageType(MessageType.CLIENT_MESSAGE);
                 clientMessage.setClientMessageType(ClientMessageType.NACK);
-                clientMessage.setContent(message.getContent());
+                clientMessage.setContent(holdBackQueueEntry.getContent());
                 clientMessage.setVectorClockEntries(message.getVectorClockEntries());
 
                 String messageJson = mapper.writeValueAsString(clientMessage);
